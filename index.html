@@ -37,13 +37,30 @@ body.play.touch #pad{display:flex}
 #pad button{width:74px;height:74px;border-radius:50%;border:2px solid rgba(255,255,255,.5);background:rgba(120,0,0,.55);color:#fff;font:700 13px inherit;font-family:inherit;touch-action:none}
 #pad button.d{background:rgba(213,0,0,.95);transform:scale(.93)}
 @media (max-height:430px){#pad button{width:56px;height:56px}#pad .v{flex-direction:row}}
+.ov{touch-action:pan-y}
+#menu .btn{padding:10px 20px;font-size:clamp(14px,3.8vw,17px)}
+.txt label{display:flex;gap:8px;align-items:center;margin:6px 0}.txt input[type=range]{flex:1}
+.txt input[type=text],.txt textarea,.txt select{width:100%;font:inherit;padding:8px;border-radius:8px;border:1px solid #888;background:#1c1c22;color:#fff;-webkit-user-select:text;user-select:text}
+.lst div{border-bottom:1px solid rgba(255,255,255,.15);padding:6px 0;word-break:break-word}
+.btn.sm{font-size:13px;padding:6px 12px;min-width:0;margin:4px 4px 0 0}
+@media (prefers-reduced-motion:reduce){.btn,#note{transition:none}.btn:active{transform:none}}
 </style></head><body>
 <div id="ld" class="ov on"><h2>Loading…</h2><div class="sub">Building the city</div></div>
 <div id="menu" class="ov"><div class="sub">DYFI TAMILNADU STATE COMMITTEE</div><h1>RECLAIM<br>JANTAR MANTAR 3D</h1>
-<button class="btn" id="bStart">Start Protest Run</button><button class="btn alt" id="bHow">How to Play</button><button class="btn alt" id="bSnd">Sound: On</button><div class="ver">v1.0 · DYFI Tamil Nadu Edition</div></div>
+<button class="btn" id="bStart">Start Protest Run</button><button class="btn alt" id="bHow">How to Play</button><button class="btn alt" id="bSet0">Settings</button><button class="btn alt" id="bLb">Leaderboard</button><button class="btn alt" id="bCom">Community</button><button class="btn alt" id="bSnd">Sound: On</button><div class="ver" id="live">Connecting…</div><div class="ver">v1.1 · DYFI Tamil Nadu Edition</div></div>
 <div id="how" class="ov"><h2>How to Play</h2><div class="txt"><b>Move:</b> ← → / A D or swipe or touch buttons.<br><b>Jump:</b> ↑ / W / Space. <b>Slide:</b> ↓ / S. <b>Pause:</b> P / Esc.<br><br><b>Red-white barricade, cone, low rope, road block:</b> jump (or change lane).<br><b>Police checkpoint, high ropes:</b> slide underneath.<br><b>Security booth:</b> change lane.<br><br><b>Star:</b> +100 and +1 life. <b>Water:</b> slows you. <b>Chocolate:</b> speed boost.<br>5 lives. Every hit costs one life.</div><button class="btn" id="bBack">Back</button></div>
-<div id="pause" class="ov"><h2>Paused</h2><button class="btn" id="bRes">Resume</button><button class="btn alt" id="bRs1">Restart</button><button class="btn alt" id="bMn1">Main Menu</button></div>
-<div id="over" class="ov"><h2>Run Over</h2><div class="txt" id="sum"></div><button class="btn" id="bRs2">Restart</button><button class="btn alt" id="bMn2">Main Menu</button></div>
+<div id="pause" class="ov"><h2>Paused</h2><button class="btn" id="bRes">Resume</button><button class="btn alt" id="bRs1">Restart</button><button class="btn alt" id="bSet1">Settings</button><button class="btn alt" id="bMn1">Main Menu</button></div>
+<div id="over" class="ov"><h2>Run Over</h2><div class="txt" id="sum"></div><button class="btn" id="bRs2">Restart</button><button class="btn alt" id="bShr">Share Result</button><button class="btn alt" id="bMn2">Main Menu</button></div>
+<div id="set" class="ov"><h2>Settings</h2><div class="txt">
+<label><input type="checkbox" id="oM"> Music <input type="range" id="vM" min="0" max="1" step=".05"></label>
+<label><input type="checkbox" id="oS"> Sound effects <input type="range" id="vS" min="0" max="1" step=".05"></label>
+<label><input type="checkbox" id="oV"> Vibration</label>
+<label>Difficulty <select id="oD"><option value="easy">Easy</option><option value="normal">Normal</option><option value="hard">Hard</option><option value="endless">Endless Challenge</option></select></label>
+<label>Name <input type="text" id="oN" maxlength="24"></label>
+<div class="ver">Difficulty applies from the next run.</div></div>
+<button class="btn alt" id="bReset">Reset preferences</button><button class="btn" id="bSetBack">Back</button></div>
+<div id="lb" class="ov"><h2>Leaderboard</h2><div class="txt lst" id="lbl">Loading…</div><button class="btn" id="bLbBack">Back</button></div>
+<div id="com" class="ov"><h2>Community</h2><div class="txt"><div class="row"><button class="btn alt sm" id="bLike">👍 <span id="nL">0</span></button><button class="btn alt sm" id="bDis">👎 <span id="nD">0</span></button><button class="btn alt sm" id="bShare">Share</button></div><div class="ver" id="cmsg"></div><textarea id="ct" maxlength="500" rows="2" placeholder="Comment (Tamil or English)"></textarea><button class="btn sm" id="bPost">Post</button><div class="lst" id="cl">Loading…</div><button class="btn alt sm" id="bMore">Load more</button></div><button class="btn" id="bComBack">Back</button></div>
 <div id="err" class="ov"><h2>Cannot start</h2><div class="txt" id="errmsg"></div></div>
 <div id="hud"><div class="pn"><div class="row"><span><i>Score</i><b id="sc">0</b></span><span><i>Dist</i><b id="di">0</b>m</span></div><div class="row"><span><i>Speed</i><b id="sp">0</b></span><span><i>Level</i><b id="lv">1</b></span></div><div class="bar"><div id="hp"></div></div><div id="li"></div></div><div><button class="ib" id="bSnd2">🔊</button><button class="ib" id="bPause">❚❚</button></div></div>
 <div id="note"></div><div id="flash"></div>
@@ -55,7 +72,7 @@ body.play.touch #pad{display:flex}
 const $=id=>document.getElementById(id);
 const C={L:40,N:10,crowd:120,v0:16,vmax:32,g:24,jv:9,slide:.7,inv:1.5,lvl:500,spawnZ:-220};
 const DEF={barricade:{hw:1.4,d:.5,y0:0,y1:.95},cone:{hw:.5,d:.7,y0:0,y1:.85},police:{hw:1.4,d:.6,y0:1,y1:2.6},ropeLow:{hw:1.4,d:.3,y0:.3,y1:.6},ropeHigh:{hw:1.4,d:.3,y0:1,y1:2.2},roadblock:{hw:1.4,d:1,y0:0,y1:1.2},security:{hw:1.4,d:1.6,y0:0,y1:3.2}};
-const OV=['ld','menu','how','pause','over','err'];
+const OV=['ld','menu','how','pause','over','err','set','lb','com'];
 function show(id){OV.forEach(o=>$(o).classList.toggle('on',o===id));}
 function fail(m){$('errmsg').textContent=m;show('err');}
 if(typeof THREE==='undefined'){fail('Three.js could not be loaded. Check your internet connection and reload.');return;}
@@ -150,7 +167,7 @@ function animPlayer(dt){
 /* ===== 11. AUDIO ===== */
 let AC=null,master=null,ambG=null,soundOn=true;
 function initAudio(){
- if(!AC){try{const A=window.AudioContext||window.webkitAudioContext;if(!A)return;AC=new A();master=AC.createGain();master.gain.value=soundOn?.7:0;master.connect(AC.destination);
+ if(!AC){try{const A=window.AudioContext||window.webkitAudioContext;if(!A)return;AC=new A();master=AC.createGain();master.gain.value=mg();master.connect(AC.destination);
   const len=AC.sampleRate*2,buf=AC.createBuffer(1,len,AC.sampleRate),d=buf.getChannelData(0);let b=0;for(let i=0;i<len;i++){b=(b+.02*(Math.random()*2-1))/1.02;d[i]=b*4;}
   const src=AC.createBufferSource();src.buffer=buf;src.loop=true;const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=800;ambG=AC.createGain();ambG.gain.value=.45;
   const lfo=AC.createOscillator(),lg=AC.createGain();lfo.frequency.value=.25;lg.gain.value=.1;lfo.connect(lg);lg.connect(ambG.gain);src.connect(lp);lp.connect(ambG);ambG.connect(master);src.start();lfo.start();}catch(e){AC=null;}}
@@ -158,7 +175,22 @@ function initAudio(){
 function setAmb(v){if(ambG)ambG.gain.setTargetAtTime(.45*v,AC.currentTime,.15);}
 function tone(f0,f1,dur,type,vol,delay){if(!AC||!soundOn||AC.state!=='running')return;try{const t=AC.currentTime+(delay||0),o=AC.createOscillator(),g=AC.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(Math.max(20,f1),t+dur);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol||.15,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(master);o.start(t);o.stop(t+dur+.02);o.onended=()=>{o.disconnect();g.disconnect();};}catch(e){}}
 const SFX={jump:()=>tone(300,600,.18,'sine',.15),slide:()=>tone(260,90,.3,'triangle',.14),lane:()=>tone(500,420,.06,'square',.05),star:()=>{tone(660,880,.12,'sine',.18);tone(880,1320,.18,'sine',.18,.1);},water:()=>tone(500,200,.35,'sine',.18),choc:()=>tone(300,900,.3,'square',.08),hit:()=>{tone(140,40,.35,'sawtooth',.25);tone(90,40,.3,'square',.15);},lvl:()=>{tone(523,523,.12,'sine',.18);tone(659,659,.12,'sine',.18,.12);tone(784,784,.25,'sine',.18,.24);},over:()=>{tone(400,300,.3,'triangle',.2);tone(300,150,.6,'triangle',.2,.3);},step:()=>tone(90,55,.05,'sine',.1)};
-function setSound(v){soundOn=v;if(master)master.gain.setTargetAtTime(v?.7:0,AC.currentTime,.05);$('bSnd').textContent='Sound: '+(v?'On':'Off');$('bSnd2').textContent=v?'🔊':'🔇';}
+/* ===== AUDIO MANAGER (music + sfx prefs) ===== */
+const PK='rjm_prefs',AU={mOn:true,mv:.3,sOn:true,sv:.8,vib:true,diff:'normal',name:'DYFI Player',best:0};
+try{Object.assign(AU,JSON.parse(localStorage.getItem(PK)||'{}'));}catch(e){}
+const savePrefs=()=>{try{localStorage.setItem(PK,JSON.stringify(AU));}catch(e){}};
+const mg=()=>AU.sOn?.7*AU.sv:0;
+const NET=(m,...a)=>{try{window.RJM_NET&&window.RJM_NET[m]&&window.RJM_NET[m](...a);}catch(e){}};
+let lastRes='';
+const mus=new Audio('sound/back.mp3');mus.loop=true;mus.preload='auto';mus.volume=0;let musBad=false,musWant=false,musVol=0;
+mus.addEventListener('error',()=>{musBad=true;});
+function musicPlay(){musWant=true;if(musBad||!AU.mOn)return;const p=mus.play();if(p&&p.catch)p.catch(()=>{});}
+function musicStop(){musWant=false;}
+function musicTick(dt){const t=musWant&&AU.mOn&&!musBad?AU.mv:0;musVol+=(t-musVol)*Math.min(1,dt*3);mus.volume=Math.max(0,Math.min(1,musVol));if(!t&&musVol<.01&&!mus.paused)mus.pause();}
+function applyAudio(){soundOn=AU.sOn;if(master)master.gain.setTargetAtTime(mg(),AC.currentTime,.05);if(!AU.mOn)musicStop();else if(st.state==='playing')musicPlay();
+ const on=AU.sOn||AU.mOn;$('bSnd').textContent='Sound: '+(on?'On':'Off');$('bSnd2').textContent=on?'🔊':'🔇';
+ $('oM').checked=AU.mOn;$('vM').value=AU.mv;$('oS').checked=AU.sOn;$('vS').value=AU.sv;$('oV').checked=AU.vib;$('oD').value=AU.diff;$('oN').value=AU.name;savePrefs();}
+function setSound(v){AU.sOn=AU.mOn=v;applyAudio();}
 
 /* ===== 8/9. OBSTACLES + COLLECTIBLES ===== */
 const obs=[],cols=[],pool={},cpool={star:[],water:[],choc:[]};
@@ -180,19 +212,21 @@ const cbuild={star(g){g.add(new THREE.Mesh(starGeo,new THREE.MeshLambertMaterial
 function getCol(t,x,z){let c=cpool[t].pop();if(!c){const g=new THREE.Group();cbuild[t](g);scene.add(g);c={type:t,g};}c.x=x;c.z=z;c.g.position.set(x,1.1,z);c.g.visible=true;cols.push(c);}
 function relC(c){c.g.visible=false;cpool[c.type].push(c);cols.splice(cols.indexOf(c),1);}
 /* spawn planner: consecutive safe lanes differ by <=1; safe lane holds nothing or an action-type obstacle; others may hold anything */
-function planRow(lv,safe,rnd){const A=['barricade','cone','ropeLow','police','ropeHigh','roadblock'].slice(0,lv<2?2:lv<3?4:6),B=lv>=4?A.concat(['security','security']):A,dens=Math.min(.9,.35+lv*.08),row=[];
+function planRow(lv,safe,rnd,dm){const A=['barricade','cone','ropeLow','police','ropeHigh','roadblock'].slice(0,lv<2?2:lv<3?4:6),B=lv>=4?A.concat(['security','security']):A,dens=Math.min(.9,(.35+lv*.08)*(dm||1)),row=[];
  for(let l=0;l<3;l++){if(l===safe){if(rnd()<.45)row.push([A[(rnd()*A.length)|0],l]);}else if(rnd()<dens)row.push([B[(rnd()*B.length)|0],l]);}return row;}
-function baseSpd(){return Math.min(C.vmax,C.v0+(st.level-1)*1.6);}
+const DIFFS={easy:{v0:13,vmax:24,grow:1.1,dens:.75,sp:1.15,inv:2.2},normal:{v0:16,vmax:32,grow:1.6,dens:1,sp:1,inv:1.5},hard:{v0:19,vmax:36,grow:2,dens:1.2,sp:.95,inv:1.1},endless:{v0:16,vmax:44,grow:2.6,dens:1.1,sp:1,inv:1.5}};let DF=DIFFS.normal;
+function baseSpd(){return Math.min(DF.vmax,DF.v0+(st.level-1)*DF.grow);}
+const spc=()=>Math.max(28,baseSpd()*1.7*DF.sp);
 function spawnRow(z){const s=st.safe+(R2()<.5?0:R2()<.5?-1:1);st.safe=Math.max(0,Math.min(2,s));
- planRow(st.level,st.safe,R2).forEach(([t,l])=>getObs(t,(l-1)*3,z));
- if(R2()<.5){const r=R2(),t=r<.3?'star':r<.65?'water':'choc';getCol(t,(st.safe-1)*3,z+Math.max(28,baseSpd()*1.7)/2);}
+ planRow(st.level,st.safe,R2,DF.dens).forEach(([t,l])=>getObs(t,(l-1)*3,z));
+ if(R2()<.5){const r=R2(),t=r<.3?'star':r<.65?'water':'choc';getCol(t,(st.safe-1)*3,z+spc()/2);}
  st.lastZ=z;}
 
 /* ===== 10. COLLISION ===== */
 const zHit=(o,dz)=>o.z+o.d/2>=-.4&&o.z-dz-o.d/2<=.4;
 const overlap=(o,x,y,h)=>Math.abs(o.x-x)<o.hw+.4&&y<o.y1&&y+h>o.y0;
 const pH=()=>slideT>0?.8:1.8;
-function damage(){st.lives--;st.health=st.lives*20;st.inv=C.inv;st.shake=.3;flashT=.35;$('flash').style.opacity=1;if(navigator.vibrate)try{navigator.vibrate(80);}catch(e){}SFX.hit();note('Ouch! Lives: '+st.lives);if(st.lives<=0)endGame();}
+function damage(){st.lives--;st.health=st.lives*20;st.inv=DF.inv;st.shake=.3;flashT=.35;$('flash').style.opacity=1;if(AU.vib&&navigator.vibrate)try{navigator.vibrate(80);}catch(e){}SFX.hit();note('Ouch! Lives: '+st.lives);if(st.lives<=0)endGame();}
 
 /* ===== 12. HUD / UI ===== */
 const E={};['sc','di','sp','lv','hp','li','note'].forEach(k=>E[k]=$(k));let hs='';
@@ -200,13 +234,13 @@ function hud(){const s=(st.score|0)+'|'+(st.dist|0)+'|'+(spd|0)+'|'+st.level+'|'
 function note(t,s){E.note.textContent=t;E.note.className='on';noteT=s||1.6;}
 function reset(){obs.slice().forEach(relO);cols.slice().forEach(relC);Object.assign(st,{score:0,dist:0,level:1,lives:5,health:100,inv:0,water:0,choc:0,safe:1,shake:0});
  lane=1;px=0;py=0;vy=0;ground=true;slideT=0;landT=0;jumpT=0;segs.forEach((s,i)=>s.position.z=20-i*C.L);
- const sp=Math.max(28,C.v0*1.7);for(let z=-70;z>=-210;z-=sp)spawnRow(z);hs='';hud();}
+ const sp=spc();for(let z=-70;z>=-210;z-=sp)spawnRow(z);hs='';hud();}
 let starting=false;
-function startGame(){if(starting)return;starting=true;initAudio();reset();st.state='playing';show(null);document.body.classList.add('play');setAmb(1);starting=false;}
-function toMenu(){st.state='menu';obs.slice().forEach(relO);cols.slice().forEach(relC);document.body.classList.remove('play');show('menu');setAmb(.6);}
-function pause(){if(st.state==='playing'){st.state='paused';show('pause');setAmb(.2);}}
-function resume(){if(st.state==='paused'){st.state='playing';show(null);setAmb(1);}}
-function endGame(){st.state='over';SFX.over();setAmb(.3);$('sum').innerHTML='<b>Score:</b> '+(st.score|0)+'<br><b>Distance:</b> '+(st.dist|0)+' m<br><b>Level reached:</b> '+st.level;show('over');}
+function startGame(){if(starting)return;starting=true;initAudio();DF=DIFFS[AU.diff]||DIFFS.normal;reset();st.state='playing';show(null);document.body.classList.add('play');setAmb(1);musicPlay();NET('status','playing');starting=false;}
+function toMenu(){st.state='menu';obs.slice().forEach(relO);cols.slice().forEach(relC);document.body.classList.remove('play');show('menu');setAmb(.6);musicStop();NET('status','viewing');}
+function pause(){if(st.state==='playing'){st.state='paused';show('pause');setAmb(.2);musicStop();NET('status','viewing');}}
+function resume(){if(st.state==='paused'){st.state='playing';show(null);setAmb(1);musicPlay();NET('status','playing');}}
+function endGame(){st.state='over';SFX.over();setAmb(.3);musicStop();const sc=st.score|0,nb=sc>(AU.best||0);if(nb){AU.best=sc;savePrefs();}NET('status','viewing');NET('submit',{score:sc,dist:st.dist|0,level:st.level});lastRes='I scored '+sc+' ('+(st.dist|0)+' m, level '+st.level+') in Reclaim Jantar Mantar 3D!';$('sum').innerHTML='<b>Score:</b> '+sc+(nb?' (new best!)':'')+'<br><b>Best:</b> '+AU.best+'<br><b>Distance:</b> '+(st.dist|0)+' m<br><b>Level reached:</b> '+st.level+'<br><b>Mode:</b> '+AU.diff;show('over');}
 
 /* ===== INPUT ===== */
 function act(a){if(st.state!=='playing')return;
@@ -214,26 +248,26 @@ function act(a){if(st.state!=='playing')return;
  else if(a==='J'&&ground){vy=C.jv;ground=false;jumpT=0;slideT=0;SFX.jump();}
  else if(a==='S'){if(ground&&slideT<=0){slideT=C.slide;SFX.slide();}else if(!ground)vy=Math.min(vy,-14);}}
 const KM={ArrowLeft:'L',a:'L',A:'L',ArrowRight:'R',d:'R',D:'R',ArrowUp:'J',w:'J',W:'J',' ':'J',ArrowDown:'S',s:'S',S:'S'};
-addEventListener('keydown',e=>{if(KM[e.key]){e.preventDefault();if(!e.repeat)act(KM[e.key]);}else if((e.key==='p'||e.key==='P'||e.key==='Escape')&&!e.repeat){st.state==='playing'?pause():resume();}});
+addEventListener('keydown',e=>{if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;if(KM[e.key]){e.preventDefault();if(!e.repeat)act(KM[e.key]);}else if((e.key==='p'||e.key==='P'||e.key==='Escape')&&!e.repeat){st.state==='playing'?pause():resume();}});
 document.querySelectorAll('[data-a]').forEach(b=>{b.addEventListener('pointerdown',e=>{e.preventDefault();b.classList.add('d');act(b.dataset.a);});['pointerup','pointercancel','pointerleave'].forEach(ev=>b.addEventListener(ev,()=>b.classList.remove('d')));b.addEventListener('contextmenu',e=>e.preventDefault());});
 let sw=null;const cv=renderer.domElement;
 cv.addEventListener('pointerdown',e=>{sw={x:e.clientX,y:e.clientY};});
 cv.addEventListener('pointerup',e=>{if(!sw)return;const dx=e.clientX-sw.x,dy=e.clientY-sw.y;sw=null;if(Math.max(Math.abs(dx),Math.abs(dy))<28)return;act(Math.abs(dx)>Math.abs(dy)?(dx>0?'R':'L'):(dy<0?'J':'S'));});
 cv.addEventListener('pointercancel',()=>{sw=null;});
 document.addEventListener('contextmenu',e=>e.preventDefault());
-document.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
+document.addEventListener('touchmove',e=>{if(!e.target.closest('.ov'))e.preventDefault();},{passive:false});
 $('bStart').onclick=startGame;$('bHow').onclick=()=>show('how');$('bBack').onclick=()=>show('menu');
-$('bSnd').onclick=()=>{initAudio();setSound(!soundOn);};$('bSnd2').onclick=()=>setSound(!soundOn);
+$('bSnd').onclick=()=>{initAudio();setSound(!(AU.sOn||AU.mOn));};$('bSnd2').onclick=()=>setSound(!(AU.sOn||AU.mOn));
 $('bPause').onclick=()=>pause();$('bRes').onclick=resume;
 $('bRs1').onclick=$('bRs2').onclick=()=>{st.state='menu';startGame();};
 $('bMn1').onclick=$('bMn2').onclick=toMenu;
-document.addEventListener('visibilitychange',()=>{if(document.hidden){pause();if(AC&&AC.state==='running')AC.suspend().catch(()=>{});}else if(AC&&st.state!=='paused')AC.resume().catch(()=>{});});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){pause();mus.pause();if(AC&&AC.state==='running')AC.suspend().catch(()=>{});}else if(AC&&st.state!=='paused')AC.resume().catch(()=>{});});
 function resize(){const w=innerWidth,h=innerHeight;renderer.setSize(w,h,false);cam.aspect=w/h;cam.fov=w/h<.8?76:62;cam.updateProjectionMatrix();}
 addEventListener('resize',resize);addEventListener('orientationchange',resize);
 
 /* ===== MAIN LOOP ===== */
 function update(dt){
- tAbs+=dt;clouds.forEach(c=>{c.position.z+=3*dt;if(c.position.z>80)c.position.z=-320;});
+ tAbs+=dt;musicTick(dt);clouds.forEach(c=>{c.position.z+=3*dt;if(c.position.z>80)c.position.z=-320;});
  if(noteT>0){noteT-=dt;if(noteT<=0)E.note.className='';}
  if(flashT>0){flashT-=dt;if(flashT<=0)$('flash').style.opacity=0;}
  const S=st.state;if(S!=='playing'&&S!=='menu')return;
@@ -244,7 +278,7 @@ function update(dt){
  if(play){
   st.dist+=dz;st.score+=dz*.6;
   const lv=1+Math.floor(st.dist/C.lvl);if(lv>st.level){st.level=lv;SFX.lvl();note('LEVEL '+lv+(lv===2?' · Police gates: SLIDE':lv===3?' · Ropes & blocks':lv===4?' · Security booths: CHANGE LANE':''),2.2);}
-  st.lastZ+=dz;if(st.lastZ>=C.spawnZ+Math.max(28,baseSpd()*1.7))spawnRow(C.spawnZ);
+  st.lastZ+=dz;if(st.lastZ>=C.spawnZ+spc())spawnRow(C.spawnZ);
   const ph=pH();
   for(let i=obs.length-1;i>=0;i--){const o=obs[i];o.z+=dz;o.g.position.z=o.z;
    if(!o.hit&&zHit(o,dz)&&overlap(o,px,py,ph)){o.hit=true;if(st.inv<=0)damage();}
@@ -283,7 +317,66 @@ window.__selfTest=()=>{const r=[],ok=(n,c)=>r.push((c?'PASS ':'FAIL ')+n),mk=t=>
  const q=rng(7);let safe=1,good=true;for(let i=0;i<500;i++){const n=Math.max(0,Math.min(2,safe+(q()<.5?0:q()<.5?-1:1)));if(Math.abs(n-safe)>1)good=false;safe=n;const row=planRow(1+(i%6),safe,q);if(row.some(([t,l])=>l===safe&&t==='security'))good=false;}ok('planner keeps a passable lane',good);
  console.log(r.join('\n'));return r;};
 
+/* ===== SETTINGS / MENUS ===== */
+const okN=n=>/^[\p{L}\p{N} _.\-]{1,24}$/u.test(n);
+let setFrom='menu';const openSet=f=>{setFrom=f;show('set');};
+$('bSet0').onclick=()=>openSet('menu');$('bSet1').onclick=()=>openSet('pause');$('bSetBack').onclick=()=>show(setFrom);
+$('bLb').onclick=()=>{show('lb');NET('loadLb');};$('bLbBack').onclick=()=>show('menu');
+$('bCom').onclick=()=>{show('com');NET('openCom');};$('bComBack').onclick=()=>{NET('closeCom');show('menu');};
+$('oM').onchange=e=>{AU.mOn=e.target.checked;applyAudio();};$('oS').onchange=e=>{AU.sOn=e.target.checked;applyAudio();};
+$('vM').oninput=e=>{AU.mv=+e.target.value;savePrefs();};$('vS').oninput=e=>{AU.sv=+e.target.value;if(master)master.gain.setTargetAtTime(mg(),AC.currentTime,.05);savePrefs();};
+$('oV').onchange=e=>{AU.vib=e.target.checked;savePrefs();};$('oD').onchange=e=>{AU.diff=e.target.value;savePrefs();};
+$('oN').onchange=e=>{const v=e.target.value.trim();if(okN(v))AU.name=v;else e.target.value=AU.name;savePrefs();};
+$('bReset').onclick=()=>{try{localStorage.removeItem(PK);}catch(x){}Object.assign(AU,{mOn:true,mv:.3,sOn:true,sv:.8,vib:true,diff:'normal',name:'DYFI Player',best:0});applyAudio();};
+$('bShr').onclick=async()=>{try{if(navigator.share)await navigator.share({title:'Reclaim Jantar Mantar 3D',text:lastRes,url:location.href.split('#')[0]});else{await navigator.clipboard.writeText(lastRes+' '+location.href);$('bShr').textContent='Copied';}}catch(e){}};
+window.RJM={AU};
 /* ===== BOOT ===== */
-resize();setSound(true);reset();st.state='menu';show('menu');raf=requestAnimationFrame(frame);
+resize();applyAudio();DF=DIFFS[AU.diff]||DIFFS.normal;reset();st.state='menu';show('menu');raf=requestAnimationFrame(frame);
+})();
+</script><script type="module">
+import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import{getAuth,signInAnonymously}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import{getDatabase,ref,onValue,set,get,update,push,remove,onDisconnect,serverTimestamp,query,orderByChild,limitToLast}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
+const FIREBASE_CONFIG={apiKey:'YOUR_EXISTING_FIREBASE_API_KEY',authDomain:'server-41203.firebaseapp.com',databaseURL:'https://server-41203-default-rtdb.firebaseio.com',projectId:'server-41203',storageBucket:'server-41203.firebasestorage.app',messagingSenderId:'26278139327',appId:'1:26278139327:web:db44e7d8d42d690abd0a'};
+const $=id=>document.getElementById(id),R=window.RJM;
+const dev=/iPad|Tablet/i.test(navigator.userAgent)?'tablet':/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop';
+const sid=Math.random().toString(36).slice(2,10)+Date.now().toString(36);
+let db=null,uid=null,online=false,status='viewing',mine=null,lim=20,unsub=[],lastPost=0;
+const live=t=>{const e=$('live');if(e)e.textContent=t;};
+const nm=()=>{const n=R&&R.AU&&R.AU.name;return n&&/^[\p{L}\p{N} _.\-]{1,24}$/u.test(n)?n:'DYFI Player';};
+const rel=t=>{const s=Math.max(0,(Date.now()-t)/1000|0);return s<60?s+'s':s<3600?(s/60|0)+'m':s<86400?(s/3600|0)+'h':(s/86400|0)+'d';};
+function wp(){if(!db||!uid||!online)return;set(ref(db,'game/presence/'+sid),{uid,status,device:dev,t:serverTimestamp()}).catch(()=>{});}
+function detach(){unsub.forEach(f=>f());unsub=[];}
+function attach(){detach();const box=$('cl');if(!db||!uid){box.textContent='Offline: community needs a connection.';return;}box.textContent='Loading…';
+ unsub.push(onValue(query(ref(db,'game/comments'),orderByChild('t'),limitToLast(lim)),s=>{const a=[];s.forEach(c=>{const v=c.val();if(!v.hidden)a.push([c.key,v]);});a.reverse();box.textContent='';
+  if(!a.length){box.textContent='No comments yet. Be the first!';}
+  a.forEach(([id,v])=>{const d=document.createElement('div'),h=document.createElement('b'),p=document.createElement('div'),b=document.createElement('button');
+   h.textContent=String(v.name).slice(0,24)+' · '+rel(v.t);p.textContent=String(v.text).slice(0,500);b.className='btn alt sm';b.textContent='Report';
+   b.onclick=()=>{set(ref(db,'game/reports/'+id+'/'+uid),true).then(()=>{b.textContent='Reported';b.disabled=true;}).catch(()=>{});};d.append(h,p,b);box.appendChild(d);});
+  $('bMore').style.display=a.length>=lim?'':'none';},()=>{box.textContent='Could not load comments (permissions or network).';}));
+ unsub.push(onValue(ref(db,'game/reactionCounts'),s=>{const v=s.val()||{};$('nL').textContent=v.likes||0;$('nD').textContent=v.dislikes||0;}));
+ unsub.push(onValue(ref(db,'game/reactions/'+uid),s=>{mine=s.val();$('bLike').style.outline=mine===1?'2px solid #fff':'';$('bDis').style.outline=mine===-1?'2px solid #fff':'';}));}
+async function react(v){if(!db||!uid)return;try{if(mine===v)await remove(ref(db,'game/reactions/'+uid));else await set(ref(db,'game/reactions/'+uid),v);}catch(e){}}
+window.RJM_NET={
+ status(s){status=s==='playing'?'playing':'viewing';wp();},
+ openCom(){lim=20;attach();},closeCom(){detach();},
+ async submit(r){if(!db||!uid)return;try{const rf=ref(db,'game/leaderboard/'+uid),p=(await get(rf)).val();if(p&&p.score>=r.score)return;await set(rf,{name:nm(),score:r.score|0,dist:r.dist|0,level:r.level|0,t:serverTimestamp()});}catch(e){}},
+ async loadLb(){const b=$('lbl');b.textContent='Loading…';if(!db||!uid){b.textContent='Offline: the leaderboard needs a connection.';return;}
+  try{const s=await get(query(ref(db,'game/leaderboard'),orderByChild('score'),limitToLast(10))),a=[];s.forEach(c=>{a.push(c.val());});a.reverse();b.textContent='';if(!a.length){b.textContent='No scores yet.';return;}
+   a.forEach((v,i)=>{const d=document.createElement('div');d.textContent=(i+1)+'. '+String(v.name).slice(0,24)+' — '+v.score+' pts · '+v.dist+' m · L'+v.level;b.appendChild(d);});}catch(e){b.textContent='Could not load the leaderboard.';}}};
+$('bLike').onclick=()=>react(1);$('bDis').onclick=()=>react(-1);$('bMore').onclick=()=>{lim+=20;attach();};
+$('bPost').onclick=async()=>{const m=$('cmsg');if(!db||!uid){m.textContent='Offline.';return;}const text=$('ct').value.trim();
+ if(!text||text.length>500){m.textContent='Enter 1–500 characters.';return;}if(Date.now()-lastPost<10000){m.textContent='Please wait a few seconds.';return;}
+ const key=push(ref(db,'game/comments')).key;
+ try{await update(ref(db,'game'),{['comments/'+key]:{uid,name:nm(),text,t:serverTimestamp()},['limits/'+uid]:serverTimestamp()});lastPost=Date.now();$('ct').value='';m.textContent='Posted.';}catch(e){m.textContent='Could not post (rate limit or permissions).';}};
+$('bShare').onclick=async()=>{const url=location.href.split('#')[0],m=$('cmsg');
+ try{if(navigator.share){await navigator.share({title:'Reclaim Jantar Mantar 3D',text:'Play the DYFI protest runner!',url});if(db&&uid)set(ref(db,'game/shares/'+uid+'/last'),serverTimestamp()).catch(()=>{});}else{await navigator.clipboard.writeText(url);m.textContent='Link copied.';}}catch(e){m.textContent='Share cancelled or unavailable.';}};
+(async()=>{
+ if(FIREBASE_CONFIG.apiKey.startsWith('YOUR_')){live('Offline mode · Firebase key not set');return;}
+ try{const app=initializeApp(FIREBASE_CONFIG);db=getDatabase(app);uid=(await signInAnonymously(getAuth(app))).user.uid;
+  onValue(ref(db,'.info/connected'),s=>{online=s.val()===true;if(online){onDisconnect(ref(db,'game/presence/'+sid)).remove();wp();}else live('○ Reconnecting…');});
+  setInterval(wp,30000);
+  onValue(query(ref(db,'game/presence'),orderByChild('t'),limitToLast(200)),s=>{let n=0,p=0;const now=Date.now();s.forEach(c=>{const v=c.val();if(now-v.t<90000){n++;if(v.status==='playing')p++;}});live('● Active sessions: '+n+' · Playing: '+p+' · Viewing: '+(n-p)+' (paused = viewing)');},()=>live('● Connected (live counts unavailable)'));
+ }catch(e){db=null;uid=null;live('Offline mode');}
 })();
 </script></body></html>
