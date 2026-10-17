@@ -1,0 +1,21 @@
+{"rules":{".read":false,".write":false,"game":{
+ "presence":{".indexOn":["t"],".read":"auth!=null","$sid":{
+  ".write":"auth!=null&&(newData.exists()?newData.child('uid').val()===auth.uid:data.child('uid').val()===auth.uid)",
+  ".validate":"newData.hasChildren(['uid','status','device','t'])&&(newData.child('status').val()==='playing'||newData.child('status').val()==='viewing')&&newData.child('device').isString()&&newData.child('device').val().length<=10&&newData.child('t').val()===now",
+  "uid":{},"status":{},"device":{},"t":{},"$other":{".validate":false}}},
+ "comments":{".indexOn":["t"],".read":"auth!=null","$id":{
+  ".write":"auth!=null&&((!data.exists()&&newData.child('uid').val()===auth.uid&&(!root.child('game/limits').child(auth.uid).exists()||root.child('game/limits').child(auth.uid).val()<now-10000))||auth.token.mod===true)",
+  ".validate":"newData.hasChildren(['uid','name','text','t'])&&!newData.hasChild('hidden')&&newData.child('text').isString()&&newData.child('text').val().length>0&&newData.child('text').val().length<=500&&newData.child('name').isString()&&newData.child('name').val().length>=1&&newData.child('name').val().length<=24&&newData.child('t').val()===now",
+  "uid":{},"name":{},"text":{},"t":{},
+  "hidden":{".write":"auth.token.mod===true",".validate":"newData.isBoolean()"},
+  "$other":{".validate":false}}},
+ "limits":{"$uid":{".read":"auth.uid===$uid",".write":"auth.uid===$uid",".validate":"newData.val()===now"}},
+ "reports":{"$cid":{"$uid":{".write":"auth.uid===$uid&&!data.exists()",".validate":"newData.val()===true"}}},
+ "reactions":{"$uid":{".read":"auth.uid===$uid",".write":"auth.uid===$uid",".validate":"newData.val()===1||newData.val()===-1"}},
+ "reactionCounts":{".read":"auth!=null",".write":false},
+ "leaderboard":{".indexOn":["score"],".read":"auth!=null","$uid":{
+  ".write":"auth.uid===$uid&&(!data.exists()||newData.child('score').val()>data.child('score').val())",
+  ".validate":"newData.hasChildren(['name','score','dist','level','t'])&&newData.child('name').isString()&&newData.child('name').val().length>=1&&newData.child('name').val().length<=24&&newData.child('score').isNumber()&&newData.child('score').val()>=0&&newData.child('score').val()<=200000&&newData.child('dist').isNumber()&&newData.child('dist').val()>=0&&newData.child('dist').val()<=100000&&newData.child('level').isNumber()&&newData.child('level').val()>=1&&newData.child('level').val()<=300&&newData.child('score').val()<=newData.child('dist').val()*5+500&&newData.child('t').val()===now",
+  "name":{},"score":{},"dist":{},"level":{},"t":{},"$other":{".validate":false}}},
+ "shares":{"$uid":{"last":{".write":"auth.uid===$uid",".validate":"newData.val()===now"}}}
+}}}
